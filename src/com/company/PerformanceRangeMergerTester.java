@@ -9,7 +9,7 @@ public class PerformanceRangeMergerTester {
 
     private final static int testDataSize = 1000;
     private final static int maxRange = 100000;
-    private final static int maxRangeGap = 1000;
+    private final static int maxRangeGap = 100;
 
     public static void main(String[] args) {
         PerformanceRangeMergerTester tester = new PerformanceRangeMergerTester();
