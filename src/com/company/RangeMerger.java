@@ -5,6 +5,14 @@ import java.util.stream.Collectors;
 
 import static com.company.Range.*;
 
+/**
+ * Simple sequential merger that checks if it's necessary to merge new Range to existing List on adding
+ * and if it is, it performs merge.
+ * @author Sergei Kuranov
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class RangeMerger {
 
     private static final List<Range> INITIAL_LIST;
@@ -30,7 +38,7 @@ public class RangeMerger {
     }
 
     private List<Range> combineRanges(List<Range> ranges, Range newRange) {
-        List<Range> intersectedRanges = ranges.stream().filter(x -> isRangeFallsIntoOther(newRange, x)).collect(Collectors.toList());
+        List<Range> intersectedRanges = ranges.stream().filter(x -> areRangesIntersected(newRange, x)).collect(Collectors.toList());
         if (intersectedRanges.size() > 0) {
             ranges.removeAll(intersectedRanges);
             intersectedRanges.add(newRange);
@@ -41,5 +49,4 @@ public class RangeMerger {
         }
         return ranges;
     }
-
 }

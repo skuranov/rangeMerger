@@ -2,12 +2,23 @@ package com.company;
 
 import java.util.List;
 
+/**
+ * Data holder for single range of values along with necessary methods to operate it.
+ *
+ * @author Sergei Kuranov
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class Range implements Comparable {
 
     private int start;
     private int end;
 
     public Range(int start, int end) {
+        if (start < 0 || end < 0) {
+            throw new RangeException("Cannot create range from negative values: start=" + start + ", end=" + end);
+        }
         this.start = start;
         this.end = end;
     }
@@ -22,10 +33,10 @@ public class Range implements Comparable {
 
     @Override
     public String toString() {
-        return "[" + start + "..." + end + "]";
+        return "[" + start + "," + end + "]";
     }
 
-    public static boolean isRangeFallsIntoOther(Range r1, Range r2) {
+    public static boolean areRangesIntersected(Range r1, Range r2) {
         return !(r1.start > r2.end || r2.start > r1.end);
     }
 
@@ -35,7 +46,7 @@ public class Range implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (isRangeFallsIntoOther(this, (Range) o)) {
+        if (areRangesIntersected(this, (Range) o)) {
             return 0;
         } else {
             return computeGap(this, (Range) o);
@@ -53,6 +64,12 @@ public class Range implements Comparable {
             return rangeList.get(0);
         } else {
             return Range.mergeRange(rangeList.get(0), mergeListOfRanges(rangeList.subList(1, rangeList.size())));
+        }
+    }
+
+    public static class RangeException extends RuntimeException {
+        public RangeException(String s) {
+            super(s);
         }
     }
 }
